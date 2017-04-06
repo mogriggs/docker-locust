@@ -1,0 +1,21 @@
+-  request:
+      url: ^/?$
+      method: GET
+   response:
+    - status: 200
+      latency: 200
+      body: "Default"
+-  request:
+      url: ^/first/?$
+      method: GET
+   response:
+    - status: 200
+      latency: 250
+      body: "first"
+-  request:
+      url: ^/second/?$
+      method: GET
+   response:
+    - status: 200
+      latency: 500
+      body: "second"

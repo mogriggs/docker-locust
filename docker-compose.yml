@@ -1,0 +1,63 @@
+version: "3"
+
+services:
+  stubby:
+    image: stubby
+    ports:
+      - 8882:8882
+      - 8889:8889
+    volumes:
+      - ./stubby:/tmp
+
+  locust-master:
+    image: locust
+    command:
+      - "-f"
+      - "/tmp/locustfile.py"
+      - "--host=http://stubby:8882"
+      - "--master"
+    depends_on:
+      - stubby
+    ports:
+      - 8089:8089
+    volumes:
+      - ./locust:/tmp
+
+  locust-slave-1:
+    image: locust
+    command:
+      - "-f"
+      - "/tmp/locustfile.py"
+      - "--host=http://stubby:8882"
+      - "--slave"
+      - "--master-host=locust-master"
+    depends_on:
+      - locust-master
+    volumes:
+      - ./locust:/tmp
+
+  locust-slave-2:
+    image: locust
+    command:
+      - "-f"
+      - "/tmp/locustfile.py"
+      - "--host=http://stubby:8882"
+      - "--slave"
+      - "--master-host=locust-master"
+    depends_on:
+      - locust-master
+    volumes:
+      - ./locust:/tmp
+
+  locust-slave-3:
+    image: locust
+    command:
+      - "-f"
+      - "/tmp/locustfile.py"
+      - "--host=http://stubby:8882"
+      - "--slave"
+      - "--master-host=locust-master"
+    depends_on:
+      - locust-master
+    volumes:
+      - ./locust:/tmp
